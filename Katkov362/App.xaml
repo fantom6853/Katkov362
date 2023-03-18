@@ -15,12 +15,13 @@
             <Setter Property="Button.Foreground" Value="#21b849"/>
             <Setter Property="Button.BorderBrush" Value="#d16bc7"/>
             <Setter Property="Button.BorderThickness" Value="4"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="Margin" Value="20"/>
             <Setter Property="Visibility" Value="Visible"/>
         </Style>
         <Style TargetType="Label">
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="Foreground" Value="#21b849"/>
             <Setter Property="Margin" Value="10"/>
         </Style>
@@ -28,6 +29,7 @@
             <Setter Property="Background" Value="#535754"/>
         </Style>
         <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="Foreground" Value="#21b849"/>
             <Setter Property="BorderThickness" Value="4"/>
             <Setter Property="Background" Value="#535754"/>
@@ -35,6 +37,7 @@
             <Setter Property="Margin" Value="20,0,20,0"/>
         </Style>
         <Style TargetType="PasswordBox">
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="Foreground" Value="#21b849"/>
             <Setter Property="BorderThickness" Value="4"/>
             <Setter Property="Background" Value="#535754"/>
@@ -45,7 +48,7 @@
             <Setter Property="Background" Value="#535754"/>
             <Setter Property="Foreground" Value="#21b849"/>
             <Setter Property="Margin" Value="20,0,20,0"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" Value="12"/>
         </Style>
     </Application.Resources>
 </Application>

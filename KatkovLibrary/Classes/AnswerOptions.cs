@@ -8,10 +8,12 @@ namespace KatkovLibrary.Classes
 {
     public class AnswerOptions
     {
-        public AnswerOptions(string questiontext)
+        public AnswerOptions(string questiontext, string[] variants)
         {
             this.questiontext = questiontext;
+            this.variants = variants;
         }
         public string questiontext { get; set; }
+        public string[] variants { get; set; }
     }
 }

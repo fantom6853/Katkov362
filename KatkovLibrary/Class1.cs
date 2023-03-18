@@ -12,6 +12,8 @@ using System.Net.Security;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using static System.Net.Mime.MediaTypeNames;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace KatkovLibrary
 {
@@ -27,7 +29,7 @@ namespace KatkovLibrary
         public static ObservableCollection<User> Users { get; set; }
         public static ObservableCollection<Quest> QuestsinQuestionnaires { get; set; }
         public static ObservableCollection<AnswerOptions> answerOptions { get; set; }
-        public static string[] AO { get; set; }
+        public static ObservableCollection<string> variants { get; set; }
         public Class1()
         {
             NpgsqlCommand command = new NpgsqlCommand();
@@ -40,6 +42,7 @@ namespace KatkovLibrary
             Users = new ObservableCollection<User>();
             QuestsinQuestionnaires = new ObservableCollection<Quest>();
             answerOptions = new ObservableCollection<AnswerOptions>();
+            variants = new ObservableCollection<string>();
             command.Connection = Connection;
             
             ListsLoad();
@@ -162,10 +165,12 @@ namespace KatkovLibrary
             if (result == null) return;
             if (result.HasRows)
             {
+                var options = new JsonSerializerOptions();
                 while (result.Read())
                 {
                     try
                     {
+                        answerOptions.Add( JsonSerializer.Deserialize<AnswerOptions>(result.GetString(4), options));
                         Questions.Add(new Quest(
                         result.GetInt32(0),
                         result.GetInt32(1),
@@ -287,17 +292,17 @@ namespace KatkovLibrary
         }
         public static void QuestAdd(int id,int type,string text,string answeroptions)
         {
-            if(answeroptions =="")
+            if(answeroptions.Trim().Length == 0)
             {
                 NpgsqlCommand command = new NpgsqlCommand();
                 command.Connection = Connection;
                 command.CommandText = "INSERT INTO public.quest (questionnaire,type,text,answeroptions) VALUES (@a,@b,@c,@d)";
+                command.Parameters.Clear();
                 command.Parameters.AddWithValue("@a", id);
                 command.Parameters.AddWithValue("@b", type);
                 command.Parameters.AddWithValue("@c", text);
                 command.Parameters.AddWithValue("@d", DBNull.Value);
                 command.ExecuteNonQuery();
-                return;
             }
             else
             {
@@ -309,9 +314,10 @@ namespace KatkovLibrary
                 command.Parameters.AddWithValue("@c", text);
                 command.Parameters.AddWithValue("@d", NpgsqlDbType.Json,answeroptions);
                 command.ExecuteNonQuery();
-                return;
             }
-            
+            Class1.answerOptions.Clear();
+            return;
+
         }
         public static void IdQuest(int id)
         {
@@ -352,7 +358,33 @@ namespace KatkovLibrary
 
             }
         }
+        public static void QuestAnswerLoad(int id)
+        {
+            answerOptions.Clear();
+            NpgsqlCommand command = new NpgsqlCommand();
+            command.Connection = Connection;
+            command.CommandText = "SELECT answeroptions FROM public.quest WHERE id =@a";
+            command.Parameters.AddWithValue("@a",id);
+            var result = command.ExecuteReader();
 
+            if (result == null) return;
+            if (result.HasRows)
+            {
+                var options = new JsonSerializerOptions();
+                while (result.Read())
+                {
+                    try
+                    {
+                        answerOptions.Add(JsonSerializer.Deserialize<AnswerOptions>(result.GetString(0), options));
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            result.Close();
+        }
+        
            
         
         

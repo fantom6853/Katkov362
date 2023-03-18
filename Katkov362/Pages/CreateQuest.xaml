@@ -8,6 +8,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CreateQuest">
+      
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -34,7 +35,11 @@
             </ListBox>
             <Button Content="Сохранить" Click="Button_Click"></Button>
         </StackPanel>
-        <StackPanel Grid.Column="1">
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition ></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
             <ListBox Name="QuestList" SelectionChanged="QuestList_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -49,24 +54,27 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Button Content="Отменить выбор" Name="Unselectbutton" Click="Unselectbutton_Click"></Button>
-        </StackPanel>
-        
-        <StackPanel Grid.Column="2" Visibility="Visible">
-            <ListBox  Name="answeroptionslist" SelectionChanged="answeroptionslist_SelectionChanged">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock>
-                                    <Run Text="id" FontSize="14"></Run>
-                                    <Run Text="{Binding id}" FontSize="14"></Run>
-                                    <Run Text="questionaire" FontSize="14"></Run>
-                                    <Run Text="{Binding questionaire}" FontSize="14"></Run>
-                                    <LineBreak></LineBreak>
-                                    <Run Text="{Binding text}" FontSize="12"></Run>
-                        </TextBlock>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+            <StackPanel Grid.Row="1">
+                <Button Content="Отменить выбор" Name="Unselectbutton" Click="Unselectbutton_Click" ></Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2" Name="AnswerPanel">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <Label Content="Введите вариант для выбора" HorizontalAlignment="Center" FontSize="12"></Label>
+                <TextBox Name="AnswerText" FontSize="12" ></TextBox>
+            </StackPanel>
+            <ListBox  Name="answeroptionslist" SelectionChanged="answeroptionslist_SelectionChanged" Margin="20" Grid.Row="1">
             </ListBox>
-        </StackPanel>
+            <StackPanel Grid.Row="2">
+
+                <Button x:Name="AnswerAddButton" Content="Добавить" Click="AnswerAddButton_Click"></Button>
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </Page>
